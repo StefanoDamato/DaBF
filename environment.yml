@@ -1,0 +1,14 @@
+name: dabf
+channels:
+- defaults
+- conda-forge
+dependencies:
+- python = 3.11.0
+- pip 
+- pip:
+  - torchvision
+  - torchaudio
+  - torch
+  - numpy
+  - tqdm
+  - matplotlib
