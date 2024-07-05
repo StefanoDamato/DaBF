@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
 import torch
 
-def set_device():
-    if torch.backends.mps.is_available():
-        return torch.device('mps')
-    elif torch.cuda.is_available():
-        return torch.device('cuda')
-    else:
-        return torch.device('cpu')
-    return
+def set_device(dvc = None):
+    if dvc is None:
+        if torch.backends.mps.is_available():
+            return torch.device('mps')
+        elif torch.cuda.is_available():
+            return torch.device('cuda')
+        else:
+            return torch.device('cpu')
+    return dvc
 
 
 def plot_num(x, cmap='grey'):

@@ -1,5 +1,5 @@
 import torch
-import tqdm
+from tqdm import tqdm
 
 from unet import UNet
 from utils import set_device
@@ -43,7 +43,7 @@ class Diffusion():
         process = []
         self.UNet.eval()
 
-        xT = self.sample_eps(torch.Size([B*self.L**2])).reshape((B,1,self.L,self.L))
+        xT = self.sample_eps(torch.Size([B*S**2])).reshape((B,1,S,S))
         if len(save_steps) > 0:
             process.append(torch.squeeze(xT.detach().to('cpu')))
 
@@ -56,7 +56,7 @@ class Diffusion():
 
             eps_pred = self.UNet(xt, num, torch.tensor([t], device=dvc).repeat(B))
 
-            xt = (xt - eps_pred*(1-alpha)/torch.sqrt(1-alpha_hat))/torch.sqrt(alpha) + 0.02*z
+            xt = (xt - eps_pred*(1-alpha)/torch.sqrt(1-alpha_hat))/torch.sqrt(alpha) + sigma*z
 
             if t in save_steps:
                 process.append(torch.squeeze(xt.detach().to('cpu')))
